@@ -94,8 +94,8 @@
     {% endif %}
 </div>
 <script>
-  var checkedHosts = [];
-  
+    var checkedHosts = [];
+
     $(function () {
         $('.deployToolTip').tooltip();
         $('#reset_{{ deployId }}').click(function () {
@@ -133,6 +133,29 @@
         $(".btn").prop("disabled", true);
     });
 
+    $("#pauseButton").on("click", function() {
+      $('#pauseSelectedHosts').modal();
+      $('#pauseSelectedHosts .modal-body #hostsList').val(checkedHosts);  
+    });
+
+    $('#pauseSelectedHosts').on('show.bs.modal', function () {
+      $('#pauseSelectedHosts .modal-body #hostsList').val(checkedHosts);
+    });
+
+    $('#pauseSelectedHosts').on("click", function() {
+      {% for hostId in checkedHosts %}
+       $.ajax({
+              type: 'POST',
+              url: '/env/{{ env.envName }}/{{ env.stageName }}/pause_deploy/{{ hostId }}/',
+              data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+              datatype: 'json',
+              success: function (data) {
+                  window.location = '/env/{{env.envName }}/{{env.stageName}}/';
+              }
+          })
+      {% endfor %}
+    })
+
     $("restartButton").on("click", function() {
       $('#restartSelectedHosts').modal();
       $('#restartSelectedHosts .modal-body #hostsList').val()
@@ -154,36 +177,12 @@
               }
           })
       {% endfor %}
-   })
+    })
 
-    $("#pauseButton").on("click", function() {
-     $('#pauseSelectedHosts').modal();
-     $('#pauseSelectedHosts .modal-body #hostsList').val(checkedHosts);  
+    $("#terminateButton").on("click", function() {
+      $('#terminateSelectedHosts').modal();
+      $('#terminateSelectedHosts .modal-body #hostsList').val(checkedHosts);
     });
-
-    $('#pauseSelectedHosts').on('show.bs.modal', function () {
-      $('#pauseSelectedHosts .modal-body #hostsList').val(checkedHosts);
-    });
-
-   $('#pauseSelectedHosts').on("click", function() {
-      {% for hostId in checkedHosts %}
-       $.ajax({
-              type: 'POST',
-              url: '/env/{{ env.envName }}/{{ env.stageName }}/pause_deploy/{{ hostId }}/',
-              data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
-              datatype: 'json',
-              success: function (data) {
-                  window.location = '/env/{{env.envName }}/{{env.stageName}}/';
-              }
-          })
-      {% endfor %}
-   })
-
-   $("#terminateButton").on("click", function() {
-    $('#terminateSelectedHosts').modal();
-    $('#terminateSelectedHosts .modal-body #hostsList').val(checkedHosts);
-    
-   });
 
    $('#terminateSelectedHosts').on('show.bs.modal', function () {
     $('#terminateSelectedHosts .modal-body #hostsList').val(checkedHosts);
@@ -191,6 +190,52 @@
 </script>
 </div>
 {% endfor %}
+
+<div class="modal fade" id="pauseSelectedHosts" tabindex="-1" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="pauseSelectedHostForm" class="form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Host(s) Pause Confirmation</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p> Are you sure you would like to pause the following hosts?</p>
+                    <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="PuaseInstanceBtnId">Pause</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="restartSelectedHosts" tabindex="-1" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="pauseSelectedHostForm" class="form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Host(s) Pause Confirmation</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p> Are you sure you would like to pause the following hosts?</p>
+                    <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="PuaseInstanceBtnId">Pause</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div class="modal fade" id="terminateHost" tabindex="-1" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -238,25 +283,3 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<div class="modal fade" id="pauseSelectedHosts" tabindex="-1" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="pauseSelectedHostForm" class="form-horizontal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Host(s) Pause Confirmation</h4>
-                </div>
-
-                <div class="modal-body">
-                    <p> Are you sure you would like to pause the following hosts?</p>
-                    <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="PuaseInstanceBtnId">Pause</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-                {% csrf_token %}
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
