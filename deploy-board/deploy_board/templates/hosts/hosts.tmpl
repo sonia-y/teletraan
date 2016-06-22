@@ -7,18 +7,18 @@
        <div class="btn-group pull-right">
           <button id="pauseButton"
           class="btn btn-default btn-sm" data-toggle="tooltip"
-          title="Pause selected this host for any future deploys.">
+          title="Pause selected hosts">
           <span class="glyphicon glyphicon-pause"></span> Pause Selected
           </button>
           <button id="restartButton"
           class="btn btn-default btn-sm" data-toggle="tooltip"
-          title="Pause selected this host for any future deploys.">
-          <span class="glyphicon glyphicon-pause"></span> Restart Selected
+          title="Restart selected hosts">
+          <span class="glyphicon glyphicon-repeat"></span> Restart Selected
           </button>
           <button id="terminateButton"
           class="btn btn-default btn-sm" data-toggle="tooltip"
-          title="Pause selected this host for any future deploys.">
-          <span class="glyphicon glyphicon-pause"></span> Terminate Selected
+          title="Soft terminate selected hosts">
+          <span class="glyphicon glyphicon-off"></span> Terminate Selected
           </button>
         </div>
   </div>
@@ -199,7 +199,6 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">Host(s) Pause Confirmation</h4>
                 </div>
-
                 <div class="modal-body">
                     <p> Are you sure you would like to pause the following hosts?</p>
                     <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
@@ -222,7 +221,6 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">Host(s) Pause Confirmation</h4>
                 </div>
-
                 <div class="modal-body">
                     <p> Are you sure you would like to pause the following hosts?</p>
                     <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
@@ -245,7 +243,6 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">Host Termination Confirm</h4>
                 </div>
-
                 <div class="modal-body">
                     <p> Are you sure to terminate the following hosts?</p>
                     <input class="form-control" name="hostIds" type="text" value="{{ host_ids }}"/>
@@ -269,7 +266,6 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">Host(s) Termination Confirmation</h4>
                 </div>
-
                 <div class="modal-body">
                     <p> Are you sure you would like to terminate the following hosts?</p>
                     <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
