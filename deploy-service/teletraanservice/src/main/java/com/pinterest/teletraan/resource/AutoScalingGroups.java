@@ -26,7 +26,6 @@ import com.pinterest.arcee.handler.GroupHandler;
 import com.pinterest.clusterservice.bean.AwsVmBean;
 import com.pinterest.clusterservice.cm.ClusterManager;
 import com.pinterest.clusterservice.cm.AwsVmManager;
-import com.pinterest.clusterservice.cm.ClusterManager;
 import com.pinterest.clusterservice.cm.AwsVmManager;
 import com.pinterest.deployservice.bean.ASGStatus;
 import com.pinterest.deployservice.bean.Role;
@@ -95,7 +94,6 @@ public class AutoScalingGroups {
         clusterManager = context.getClusterManager();
         autoScalingManager = context.getAutoScalingManager();
         groupMappingDAO = context.getGroupMappingDAO();
-        clusterManager = context.getClusterManager();
         autoScalingManager = context.getAutoScalingManager();
     }
 

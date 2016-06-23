@@ -134,42 +134,34 @@
     });
 
     $("#pauseButton").on("click", function() {
+      console.log('pause');
       $('#pauseSelectedHosts').modal();
       $('#pauseSelectedHosts .modal-body #hostsList').val(checkedHosts);  
     });
 
-    $('#pauseSelectedHosts').on('show.bs.modal', function () {
-      $('#pauseSelectedHosts .modal-body #hostsList').val(checkedHosts);
-    });
-
-    $('#pauseSelectedHosts').on("click", function() {
-      {% for hostId in checkedHosts %}
+    $('#pauseSelectedBtnId').on("click", function() {
        $.ajax({
               type: 'POST',
-              url: '/env/{{ env.envName }}/{{ env.stageName }}/pause_deploy/{{ hostId }}/',
-              data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+              url: '/env/{{ env.envName }}/{{ env.stageName }}/pause_hosts/{{ checkedHosts }}/',
+              data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'hostIds' },
               datatype: 'json',
               success: function (data) {
                   window.location = '/env/{{env.envName }}/{{env.stageName}}/';
               }
           })
-      {% endfor %}
-    })
+    });
 
-    $("restartButton").on("click", function() {
+    $("#restartButton").on("click", function() {
+      console.log('in');
       $('#restartSelectedHosts').modal();
-      $('#restartSelectedHosts .modal-body #hostsList').val()
-    })
-
-    $('#restartSelectedHosts').on('show.bs.modal', function () {
       $('#restartSelectedHosts .modal-body #hostsList').val(checkedHosts);
     });
 
-    $('#restartSelectedHosts').on("click", function() {
+    $('#restartSelectedBtnId').on("click", function() {
       {% for hostId in checkedHosts %}
        $.ajax({
               type: 'POST',
-              url: '/env/{{ env.envName }}/{{ env.stageName }}/reset_deploy/{{ hostId }}/',
+              url: '/env/{{ env.envName }}/{{ env.stageName }}/reset_hosts/{{ checkedHosts }}/',
               data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
               datatype: 'json',
               success: function (data) {
@@ -177,7 +169,7 @@
               }
           })
       {% endfor %}
-    })
+    });
 
     $("#terminateButton").on("click", function() {
       $('#terminateSelectedHosts').modal();
@@ -185,7 +177,7 @@
     });
 
    $('#terminateSelectedHosts').on('show.bs.modal', function () {
-    $('#terminateSelectedHosts .modal-body #hostsList').val(checkedHosts);
+      $('#terminateSelectedHosts .modal-body #hostsList').val(checkedHosts);
    });
 </script>
 </div>
@@ -204,7 +196,7 @@
                     <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="PuaseInstanceBtnId">Pause</button>
+                    <button type="submit" class="btn btn-primary" id="pauseSelectedBtnId">Pause</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
                 {% csrf_token %}
@@ -216,17 +208,17 @@
 <div class="modal fade" id="restartSelectedHosts" tabindex="-1" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="pauseSelectedHostForm" class="form-horizontal">
+            <form id="restartSelectedHostForm" class="form-horizontal">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Host(s) Pause Confirmation</h4>
+                    <h4 class="modal-title">Host(s) Restart Confirmation</h4>
                 </div>
                 <div class="modal-body">
-                    <p> Are you sure you would like to pause the following hosts?</p>
+                    <p> Are you sure you would like to restart the following hosts?</p>
                     <input id="hostsList" class="form-control" name="hostIds" type="text" value=""/>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="PuaseInstanceBtnId">Pause</button>
+                    <button type="submit" class="btn btn-primary" id="restartSelectedBtnId">Restart</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
                 {% csrf_token %}
@@ -248,7 +240,7 @@
                     <input class="form-control" name="hostIds" type="text" value="{{ host_ids }}"/>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="terminateInstanceBtnId">Terminate</button>
+                    <button type="submit" class="btn btn-primary" id="terminateSelectedBtnId">Terminate</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
                 {% csrf_token %}
