@@ -953,12 +953,14 @@ def resume_deploy(request, name, stage, host_id):
     return HttpResponse(json.dumps({'html': ''}), content_type="application/json")
 
 # resume hosts for this env and stage
-def pause_hosts(request, env_name, stage, host_ids):
+def pause_hosts(request, env_name, stage):
+    host_ids = request.GET.get('host_ids')
     environs_helper.pause_hosts(request, env_name, stage, host_ids)
     return HttpResponse(json.dumps({'html': ''}), content_type="application/json")
 
 # reset hosts for this env and stage
-def reset_hosts(request, env_name, stage, host_ids):
+def reset_hosts(request, env_name, stage):
+    host_ids = request.GET.get('host_ids')
     environs_helper.reset_hosts(request, env_name, stage, host_ids)
     return HttpResponse(json.dumps({'html': ''}), content_type="application/json")
 
